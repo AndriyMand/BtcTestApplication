@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}404 Page not found{% endblock %}
+
+
+{% block body %}
+    <div class="d-flex align-items-center justify-content-center vh-100">
+        <div class="text-center">
+            <h1 class="display-1 fw-bold">404</h1>
+            <p class="fs-3"> <span class="text-danger">Opps!</span> Page not found.</p>
+            <p class="lead">
+                The page you’re looking for doesn’t exist.
+                </p>
+            <div class="row">
+                <div class="col">
+                    <a href="{{ path('app.swagger_ui') }}" class="btn btn-primary">API page</a>
+                </div>
+                <div class="col">
+                    <a href="{{ path('app_main') }}" class="btn btn-primary">Home page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

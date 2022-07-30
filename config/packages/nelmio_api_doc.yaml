@@ -1,0 +1,61 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: BTC Rate API
+            description: Отримання поточного курсу BTC до UAH
+            version: 1.0.0
+        paths:
+            /rate:
+                get:
+                    summary: "Отримати поточний курс BTC до UAH"
+                    description: "Запит має повертати поточний курс BTC до UAH використовуючи будь-який third party сервіс з публічним АРІ"
+                    tags:
+                        - "rate"
+                    operationId: "rate"
+                    responses:
+                        "200":
+                            description: "Повертається актуальний курс BTC до UAH"
+                            content:
+                                application/json:
+                                    schema:
+                                        type: number
+                        "400":
+                            description: "Invalid status value"
+            /subscribe:
+                post:
+                    tags:
+                        - "subscription"
+                    summary: "Підписати емейл на отримання поточного курсу"
+                    description: "Запит має перевірити, чи немає данної електронної адреси в поточній базі даних (файловій) і, в разі її відсутності, записувати її. Пізніше, за допомогою іншого запиту ми будемо відправляти лист на ті електронні адреси, які будуть в цій базі. "
+                    operationId: "subscribe"
+                    parameters:
+                        -
+                            in: query
+                            name: email
+                            description: "Електронна адреса, яку потрібно підписати"
+                            required: true
+                            schema:
+                                type: string
+                                format: email
+                                example: "test@gmail.com"
+                    responses:
+                        "200":
+                            description: "E-mail додано"
+                        "409":
+                            description: "Email вже є в базі даних (файловій)"
+                        "406":
+                            description: "Направильний формат емейлу"
+            /sendEmails:
+                post:
+                    tags:
+                        - "subscription"
+                    summary: "Відправити e-mail з поточним курсом на всі підписані електронні пошти."
+                    description: "Запит має отримувати актуальний курс BTC до UAH за допомогою third-party сервісу та відправляти його на всі електронні адреси, які були підписані раніше.  "
+                    operationId: "sendEmails"
+                    responses:
+                        "200":
+                            description: "E-mailʼи відправлено"
+                        
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!(/doc|/doc.json)$) # Accepts routes under /api except /api/doc
